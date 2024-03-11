@@ -1,14 +1,16 @@
 import { motion, AnimatePresence } from "framer-motion";
 import React from "react";
 import Image from "next/image";
-import wallyIcon from "../../public/wallyico.png";
+import wallyIcon from "../../../public/wallyico.png";
+import wilmaicon from "../../../public/wilmaico.jpeg";
 
 interface SelectPopupProps {
   opacity: number;
   position: { x: number; y: number };
+  difficulty: any;
 }
 
-const SelectPopup = ({ opacity, position }: SelectPopupProps) => {
+const SelectPopup = ({ opacity, position, difficulty }: SelectPopupProps) => {
   return (
     <AnimatePresence>
       {opacity > 0 && (
@@ -20,7 +22,11 @@ const SelectPopup = ({ opacity, position }: SelectPopupProps) => {
           className="absolute bg-white p-3 rounded-lg overflow-hidden flex flex-col justify-center items-center gap-2"
           style={{ top: `${position.y}px`, left: `${position.x}px` }}
         >
-          <Image src={wallyIcon} alt={""} className="w-16 h-16" />
+          <Image
+            src={difficulty === "hard" ? wilmaicon : wallyIcon}
+            alt={""}
+            className="w-16 h-16"
+          />
           <button className="bg-black text-white rounded-lg p-2">
             Confirm target?
           </button>

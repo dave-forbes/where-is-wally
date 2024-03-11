@@ -4,10 +4,15 @@ import { useState } from "react";
 import ImageMagnifier from "./ImageMagnifier";
 import SelectPopup from "./SelectPopup";
 import Image from "next/image";
-import wallyicon from "../../public/wallyico.png";
-import wilmaicon from "../../public/wilmaico.jpeg";
+import wallyicon from "../../../public/wallyico.png";
+import wilmaicon from "../../../public/wilmaico.jpeg";
 
-export default function Page() {
+interface PageProps {
+  params: any;
+}
+
+export default function Page({ params }: PageProps) {
+  const difficulty = params.difficulty;
   const [opacity, setOpacity] = useState(0);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const handleClick = (e: any) => {
@@ -27,7 +32,7 @@ export default function Page() {
       <div>
         <div onClick={handleClick}>
           <ImageMagnifier
-            difficulty={"hard"}
+            difficulty={difficulty}
             freezeCrosshair={freezeCrosshair}
             zoomLevel={zoomLevel}
           />
@@ -45,11 +50,19 @@ export default function Page() {
           </div>
           <div className="flex items-center gap-6 bg-white rounded-lg p-3">
             <h1>Your Target</h1>
-            <Image src={wilmaicon} alt={""} className="w-20 h-auto" />
+            <Image
+              src={difficulty === "hard" ? wilmaicon : wallyicon}
+              alt={""}
+              className="w-20 h-auto"
+            />
           </div>
         </div>
       </div>
-      <SelectPopup opacity={opacity} position={position} />
+      <SelectPopup
+        opacity={opacity}
+        position={position}
+        difficulty={difficulty}
+      />
     </div>
   );
 }
