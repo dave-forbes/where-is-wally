@@ -10,6 +10,7 @@ export default function ImageMagnifier({
   magnifierHeight = 120,
   magnifierWidth = 120,
   zoomLevel = 1.2,
+  freezeCrosshair,
 }: {
   src: string;
   width?: string;
@@ -17,6 +18,7 @@ export default function ImageMagnifier({
   magnifierHeight?: number;
   magnifierWidth?: number;
   zoomLevel?: number;
+  freezeCrosshair: boolean;
 }) {
   const [[x, y], setXY] = useState([0, 0]);
   const [[imgWidth, imgHeight], setSize] = useState([0, 0]);
@@ -42,18 +44,22 @@ export default function ImageMagnifier({
           setShowMagnifier(true);
         }}
         onMouseMove={(e) => {
-          // update cursor position
-          const elem = e.currentTarget;
-          const { top, left } = elem.getBoundingClientRect();
+          if (!freezeCrosshair) {
+            // update cursor position
+            const elem = e.currentTarget;
+            const { top, left } = elem.getBoundingClientRect();
 
-          // calculate cursor position on the image
-          const x = e.pageX - left - window.pageXOffset;
-          const y = e.pageY - top - window.pageYOffset;
-          setXY([x, y]);
+            // calculate cursor position on the image
+            const x = e.pageX - left - window.pageXOffset;
+            const y = e.pageY - top - window.pageYOffset;
+            setXY([x, y]);
+          }
         }}
         onMouseLeave={() => {
-          // close magnifier
-          setShowMagnifier(false);
+          if (!freezeCrosshair) {
+            // close magnifier
+            setShowMagnifier(false);
+          }
         }}
         alt={"img"}
       />

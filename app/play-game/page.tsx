@@ -10,7 +10,9 @@ export default function Page() {
   const handleClick = (e: any) => {
     setPosition({ x: e.clientX, y: e.clientY });
     setOpacity(opacity === 1 ? 0 : 1);
+    setFreezeCrosshair(freezeCrosshair === false ? true : false);
   };
+  const [freezeCrosshair, setFreezeCrosshair] = useState(false);
 
   return (
     <div className="flex items-center h-screen w-screen justify-center bg-black">
@@ -19,6 +21,7 @@ export default function Page() {
           src={"/where-is-wally-easy.jpg"}
           width={"900"}
           height={"660"}
+          freezeCrosshair={freezeCrosshair}
         />
       </div>
       <SelectPopup opacity={opacity} position={position} />
