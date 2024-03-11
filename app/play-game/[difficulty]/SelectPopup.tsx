@@ -1,8 +1,10 @@
 import { motion, AnimatePresence } from "framer-motion";
 import React from "react";
 import Image from "next/image";
-import wallyIcon from "../../../public/wallyico.png";
-import wilmaicon from "../../../public/wilmaico.jpeg";
+import wallypic from "../../../public/wallypic.png";
+import odlawpic from "../../../public/odlawpic.jpeg";
+import wizardpic from "../../../public/wizardpic.png";
+import Target from "./Target";
 
 interface SelectPopupProps {
   opacity: number;
@@ -22,14 +24,12 @@ const SelectPopup = ({ opacity, position, difficulty }: SelectPopupProps) => {
           className="absolute bg-white p-3 rounded-lg overflow-hidden flex flex-col justify-center items-center gap-2"
           style={{ top: `${position.y}px`, left: `${position.x}px` }}
         >
-          <Image
-            src={difficulty === "hard" ? wilmaicon : wallyIcon}
-            alt={""}
-            className="w-16 h-16"
-          />
-          <button className="bg-black text-white rounded-lg p-2">
-            Confirm target?
-          </button>
+          <p>Confirm Target</p>
+          <div className="flex gap-3">
+            <Target src={wallypic} />
+            <Target src={odlawpic} />
+            <Target src={wizardpic} />
+          </div>
         </motion.div>
       )}
     </AnimatePresence>
