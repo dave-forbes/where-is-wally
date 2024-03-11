@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./ImageMagnifier.css";
 
 //- code taken from this article https://dev.to/anxiny/create-an-image-magnifier-with-react-3fd7
 
@@ -31,7 +32,7 @@ export default function ImageMagnifier({
     >
       <img
         src={src}
-        style={{ height: height, width: width }}
+        style={{ height: `${height}px`, width: `auto` }}
         draggable={false}
         onMouseEnter={(e) => {
           // update image size and turn-on magnifier
@@ -58,6 +59,7 @@ export default function ImageMagnifier({
       />
 
       <div
+        id="magnifying-glass"
         style={{
           display: showMagnifier ? "" : "none",
           position: "absolute",
