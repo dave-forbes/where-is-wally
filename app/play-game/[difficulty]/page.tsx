@@ -3,9 +3,10 @@
 import { useState } from "react";
 import ImageMagnifier from "./ImageMagnifier";
 import SelectPopup from "./SelectPopup";
-import Image from "next/image";
-import wallyicon from "../../../public/wallyico.png";
-import wilmaicon from "../../../public/wilmaico.jpeg";
+import wallypic from "../../../public/wallypic.png";
+import odlawpic from "../../../public/odlawpic.jpeg";
+import wizardpic from "../../../public/wizardpic.png";
+import Target from "./Target";
 
 interface PageProps {
   params: any;
@@ -49,12 +50,10 @@ export default function Page({ params }: PageProps) {
             ></input>
           </div>
           <div className="flex items-center gap-6 bg-white rounded-lg p-3">
-            <h1>Your Target</h1>
-            <Image
-              src={difficulty === "hard" ? wilmaicon : wallyicon}
-              alt={""}
-              className="w-20 h-auto"
-            />
+            <h1>Your Targets</h1>
+            <Target src={wallypic} />
+            <Target src={odlawpic} />
+            <Target src={wizardpic} />
           </div>
         </div>
       </div>
