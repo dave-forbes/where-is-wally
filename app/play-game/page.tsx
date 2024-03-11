@@ -5,6 +5,7 @@ import ImageMagnifier from "./ImageMagnifier";
 import SelectPopup from "./SelectPopup";
 import Image from "next/image";
 import wallyicon from "../../public/wallyico.png";
+import wilmaicon from "../../public/wilmaico.jpeg";
 
 export default function Page() {
   const [opacity, setOpacity] = useState(0);
@@ -31,9 +32,9 @@ export default function Page() {
             zoomLevel={zoomLevel}
           />
         </div>
-        <div className="w-full flex justify-evenly items-center pt-10">
-          <div className="flex items-center gap-6">
-            <h1 className="text-white">Zoom level</h1>
+        <div className="w-full flex justify-evenly items-center pt-5">
+          <div className="flex items-center gap-6 bg-white rounded-lg p-3">
+            <h1>Zoom level</h1>
             <input
               type="range"
               onChange={handleZoomLevel}
@@ -42,9 +43,9 @@ export default function Page() {
               value={zoomLevel}
             ></input>
           </div>
-          <div className="flex items-center gap-6">
-            <h1 className="text-white">Your Target</h1>
-            <Image src={wallyicon} alt={""} className="w-20 h-auto" />
+          <div className="flex items-center gap-6 bg-white rounded-lg p-3">
+            <h1>Your Target</h1>
+            <Image src={wilmaicon} alt={""} className="w-20 h-auto" />
           </div>
         </div>
       </div>
