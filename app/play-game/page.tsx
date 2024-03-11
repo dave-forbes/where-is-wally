@@ -26,7 +26,7 @@ export default function Page() {
       <div>
         <div onClick={handleClick}>
           <ImageMagnifier
-            src={"/where-is-wally-easy.jpg"}
+            difficulty={"hard"}
             freezeCrosshair={freezeCrosshair}
             zoomLevel={zoomLevel}
           />

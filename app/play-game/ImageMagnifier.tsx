@@ -4,13 +4,13 @@ import "./ImageMagnifier.css";
 //- code taken from this article https://dev.to/anxiny/create-an-image-magnifier-with-react-3fd7
 
 export default function ImageMagnifier({
-  src,
+  difficulty,
   magnifierHeight = 120,
   magnifierWidth = 120,
   zoomLevel = 0,
   freezeCrosshair,
 }: {
-  src: string;
+  difficulty: string;
   magnifierHeight?: number;
   magnifierWidth?: number;
   zoomLevel?: number;
@@ -27,7 +27,7 @@ export default function ImageMagnifier({
       }}
     >
       <img
-        src={src}
+        src={`/where-is-wally-${difficulty}.jpg`}
         style={{ height: "auto", width: `60vw` }}
         draggable={false}
         onMouseEnter={(e) => {
@@ -76,7 +76,7 @@ export default function ImageMagnifier({
           border: "4px solid grey",
           outline: "2px solid black",
           borderRadius: "50%",
-          backgroundImage: `url("${src}")`,
+          backgroundImage: `url("/where-is-wally-${difficulty}.jpg")`,
           backgroundRepeat: "no-repeat",
 
           //calculate zoomed image size
