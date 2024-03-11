@@ -16,7 +16,7 @@ export default function Page() {
     <div className="flex items-center h-screen w-screen justify-center bg-black">
       <div onClick={handleClick}>
         <ImageMagnifier
-          src={"/48-Where's-Wally-WALKER-BOOKS.jpg"}
+          src={"/where-is-wally-easy.jpg"}
           width={"900"}
           height={"660"}
         />
