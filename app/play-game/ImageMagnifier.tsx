@@ -32,6 +32,7 @@ export default function ImageMagnifier({
       <img
         src={src}
         style={{ height: height, width: width }}
+        draggable={false}
         onMouseEnter={(e) => {
           // update image size and turn-on magnifier
           const elem = e.currentTarget;
@@ -73,7 +74,7 @@ export default function ImageMagnifier({
           border: "4px solid grey",
           outline: "2px solid black",
           borderRadius: "50%",
-          backgroundImage: `url(${src})`,
+          backgroundImage: `url("${src}")`,
           backgroundRepeat: "no-repeat",
 
           //calculate zoomed image size
