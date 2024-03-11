@@ -5,16 +5,12 @@ import "./ImageMagnifier.css";
 
 export default function ImageMagnifier({
   src,
-  width,
-  height,
   magnifierHeight = 120,
   magnifierWidth = 120,
-  zoomLevel = 1.2,
+  zoomLevel = 0,
   freezeCrosshair,
 }: {
   src: string;
-  width?: string;
-  height?: string;
   magnifierHeight?: number;
   magnifierWidth?: number;
   zoomLevel?: number;
@@ -27,14 +23,12 @@ export default function ImageMagnifier({
     <div
       style={{
         position: "relative",
-        height: height,
-        width: width,
         cursor: "none",
       }}
     >
       <img
         src={src}
-        style={{ height: `${height}px`, width: `auto` }}
+        style={{ height: "auto", width: `60vw` }}
         draggable={false}
         onMouseEnter={(e) => {
           // update image size and turn-on magnifier
