@@ -19,6 +19,7 @@ export default function ImageMagnifier({
   const [[x, y], setXY] = useState([0, 0]);
   const [[imgWidth, imgHeight], setSize] = useState([0, 0]);
   const [showMagnifier, setShowMagnifier] = useState(false);
+
   return (
     <div
       style={{
@@ -28,7 +29,7 @@ export default function ImageMagnifier({
     >
       <img
         src={`/where-is-wally-${difficulty}.jpg`}
-        style={{ height: "70vh", width: `auto` }}
+        style={{ height: "min(70vh, 1000px)", width: `auto` }}
         draggable={false}
         onMouseEnter={(e) => {
           // update image size and turn-on magnifier

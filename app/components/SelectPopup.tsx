@@ -1,9 +1,8 @@
 import { motion, AnimatePresence } from "framer-motion";
 import React from "react";
-import Image from "next/image";
-import wallypic from "../../../public/wallypic.png";
-import odlawpic from "../../../public/odlawpic.jpeg";
-import wizardpic from "../../../public/wizardpic.png";
+import wallypic from "../../public/wallypic.png";
+import odlawpic from "../../public/odlawpic.jpeg";
+import wizardpic from "../../public/wizardpic.png";
 import Target from "./Target";
 
 interface SelectPopupProps {
