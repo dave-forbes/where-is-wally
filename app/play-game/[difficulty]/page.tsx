@@ -7,6 +7,7 @@ import wallypic from "../../../public/wallypic.png";
 import odlawpic from "../../../public/odlawpic.jpeg";
 import wizardpic from "../../../public/wizardpic.png";
 import Target from "./Target";
+import Image from "next/image";
 
 interface PageProps {
   params: any;
@@ -29,11 +30,50 @@ export default function Page({ params }: PageProps) {
   };
 
   return (
-    <div className="flex items-center h-screen w-screen justify-center bg-black flex-col">
-      <div>
+    <div className="flex items-center h-screen w-screen bg-black flex-col justify-center">
+      <header className=" flex justify-evenly items-center py-3 top-0 bg-blue-900 w-full absolute">
+        <div className="flex items-center gap-6 bg-white rounded-lg p-3">
+          <h1>Zoom level</h1>
+          <input
+            type="range"
+            onChange={handleZoomLevel}
+            min="1"
+            max="3"
+            value={zoomLevel}
+          ></input>
+        </div>
+
         <div className="bg-white rounded-lg p-3">
           <h1 className="text-4xl">Time: 12.12secs</h1>
         </div>
+        <div className="flex gap-3">
+          <div className=" flex items-center bg-white rounded-lg p-3">
+            <Image
+              src={wallypic}
+              width={50} // set your desired width here
+              height={50}
+              alt={""}
+            />
+          </div>
+          <div className="flex items-center bg-white rounded-lg p-3">
+            <Image
+              src={odlawpic}
+              width={50} // set your desired width here
+              height={50}
+              alt={""}
+            />
+          </div>
+          <div className="flex items-center bg-white rounded-lg p-3">
+            <Image
+              src={wizardpic}
+              width={50} // set your desired width here
+              height={50}
+              alt={""}
+            />
+          </div>
+        </div>
+      </header>
+      <div>
         <div onClick={handleClick}>
           <ImageMagnifier
             difficulty={difficulty}
@@ -41,32 +81,8 @@ export default function Page({ params }: PageProps) {
             zoomLevel={zoomLevel}
           />
         </div>
-        <div className="w-full flex justify-evenly items-center pt-5">
-          <div className="flex items-center gap-6 bg-white rounded-lg p-3">
-            <h1>Zoom level</h1>
-            <input
-              type="range"
-              onChange={handleZoomLevel}
-              min="1"
-              max="3"
-              value={zoomLevel}
-            ></input>
-          </div>
-          <div className="flex gap-6 items-center bg-white rounded-lg p-3">
-            <h1>Your Targets</h1>
-            <div className="flex gap-3 items-baseline">
-              <Target src={wallypic} />
-              <Target src={odlawpic} />
-              <Target src={wizardpic} />
-            </div>
-          </div>
-        </div>
       </div>
-      <SelectPopup
-        opacity={opacity}
-        position={position}
-        difficulty={difficulty}
-      />
+      <SelectPopup opacity={opacity} position={position} />
     </div>
   );
 }
