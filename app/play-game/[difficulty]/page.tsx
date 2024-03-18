@@ -31,6 +31,9 @@ export default function Page({ params }: PageProps) {
   return (
     <div className="flex items-center h-screen w-screen justify-center bg-black flex-col">
       <div>
+        <div className="bg-white rounded-lg p-3">
+          <h1 className="text-4xl">Time: 12.12secs</h1>
+        </div>
         <div onClick={handleClick}>
           <ImageMagnifier
             difficulty={difficulty}
@@ -49,11 +52,13 @@ export default function Page({ params }: PageProps) {
               value={zoomLevel}
             ></input>
           </div>
-          <div className="flex items-center gap-6 bg-white rounded-lg p-3">
+          <div className="flex gap-6 items-center bg-white rounded-lg p-3">
             <h1>Your Targets</h1>
-            <Target src={wallypic} />
-            <Target src={odlawpic} />
-            <Target src={wizardpic} />
+            <div className="flex gap-3 items-baseline">
+              <Target src={wallypic} />
+              <Target src={odlawpic} />
+              <Target src={wizardpic} />
+            </div>
           </div>
         </div>
       </div>
