@@ -9,10 +9,9 @@ import Target from "./Target";
 interface SelectPopupProps {
   opacity: number;
   position: { x: number; y: number };
-  difficulty: any;
 }
 
-const SelectPopup = ({ opacity, position, difficulty }: SelectPopupProps) => {
+const SelectPopup = ({ opacity, position }: SelectPopupProps) => {
   return (
     <AnimatePresence>
       {opacity > 0 && (
