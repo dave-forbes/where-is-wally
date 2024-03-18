@@ -28,7 +28,7 @@ export default function ImageMagnifier({
     >
       <img
         src={`/where-is-wally-${difficulty}.jpg`}
-        style={{ height: "auto", width: `60vw` }}
+        style={{ height: "70vh", width: `auto` }}
         draggable={false}
         onMouseEnter={(e) => {
           // update image size and turn-on magnifier
