@@ -25,7 +25,7 @@ const SelectPopup = ({ opacity, position, difficulty }: SelectPopupProps) => {
           style={{ top: `${position.y}px`, left: `${position.x}px` }}
         >
           <p>Confirm Target</p>
-          <div className="flex gap-3">
+          <div className="flex gap-3 items-baseline">
             <Target src={wallypic} />
             <Target src={odlawpic} />
             <Target src={wizardpic} />
