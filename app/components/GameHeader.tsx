@@ -34,19 +34,19 @@ export default function GameHeader() {
           <div className=" flex items-center bg-white rounded-lg p-3">
             <div style={{ position: "relative" }}>
               {foundCharacters.includes("wally") && <CrossSVG />}
-              <Image src={wallypic} width={50} height={50} alt={""} />
+              <Image src={wallypic} width={50} alt={""} />
             </div>
           </div>
           <div className="flex items-center bg-white rounded-lg p-3">
             <div style={{ position: "relative" }}>
               {foundCharacters.includes("odlaw") && <CrossSVG />}
-              <Image src={odlawpic} width={50} height={50} alt={""} />
+              <Image src={odlawpic} width={50} alt={""} />
             </div>
           </div>
           <div className="flex items-center bg-white rounded-lg p-3">
             <div style={{ position: "relative" }}>
               {foundCharacters.includes("wizard") && <CrossSVG />}
-              <Image src={wizardpic} width={50} height={50} alt={""} />
+              <Image src={wizardpic} width={50} alt={""} />
             </div>
           </div>
         </div>
