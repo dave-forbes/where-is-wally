@@ -21,11 +21,16 @@ export default function Page({ params }: PageProps) {
     freezeCrosshair,
     setFreezeCrosshair,
     zoomLevel,
+    setTotalSeconds,
   } = useGameContext();
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     setDifficulty(params.difficulty);
+  }, []);
+
+  useEffect(() => {
+    setTotalSeconds(0);
   }, []);
 
   const handleClick = async (e: any) => {
