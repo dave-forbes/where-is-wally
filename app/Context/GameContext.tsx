@@ -6,6 +6,7 @@ import {
   Dispatch,
   SetStateAction,
   useState,
+  useEffect,
 } from "react";
 
 interface GameContextProps {
@@ -23,6 +24,12 @@ interface GameContextProps {
   setZoomLevel: Dispatch<SetStateAction<number>>;
   foundCharacters: string[];
   setFoundCharacters: Dispatch<SetStateAction<string[]>>;
+  totalSeconds: number;
+  setTotalSeconds: Dispatch<SetStateAction<number>>;
+  timerActive: boolean;
+  setTimerActive: Dispatch<SetStateAction<boolean>>;
+  gameOver: boolean; // New state for game over
+  setGameOver: Dispatch<SetStateAction<boolean>>; // Function to update game over state
 }
 
 const GameContext = createContext<GameContextProps>({
@@ -40,6 +47,12 @@ const GameContext = createContext<GameContextProps>({
   setZoomLevel: (): void => {},
   foundCharacters: [],
   setFoundCharacters: (): void => {},
+  totalSeconds: 0,
+  setTotalSeconds: (): void => {},
+  timerActive: false,
+  setTimerActive: (): void => {},
+  gameOver: false, // Default game over state
+  setGameOver: (): void => {}, // Placeholder function
 });
 
 export const GameContextProvider = ({ children }: any) => {
@@ -50,6 +63,23 @@ export const GameContextProvider = ({ children }: any) => {
   const [selectionFeedback, setSelectionFeedback] = useState("");
   const [zoomLevel, setZoomLevel] = useState(0);
   const [foundCharacters, setFoundCharacters] = useState<string[]>([]);
+  const [totalSeconds, setTotalSeconds] = useState(0);
+  const [timerActive, setTimerActive] = useState(true);
+  const [gameOver, setGameOver] = useState(false); // Initialize game over state
+
+  // Check for game over condition whenever foundCharacters array is updated
+  useEffect(() => {
+    if (foundCharacters.length >= 3) {
+      setGameOver(true);
+      // You can perform any additional actions here when the game is over
+    }
+  }, [foundCharacters]);
+
+  useEffect(() => {
+    if (gameOver) {
+      setTimerActive(false);
+    }
+  });
 
   return (
     <GameContext.Provider
@@ -68,6 +98,12 @@ export const GameContextProvider = ({ children }: any) => {
         setZoomLevel,
         foundCharacters,
         setFoundCharacters,
+        totalSeconds,
+        setTotalSeconds,
+        timerActive,
+        setTimerActive,
+        gameOver, // Pass game over state to context
+        setGameOver, // Pass function to update game over state to context
       }}
     >
       {children}
