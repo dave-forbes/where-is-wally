@@ -1,13 +1,13 @@
 "use client";
 
-import { useState } from "react";
-import ImageMagnifier from "./ImageMagnifier";
-import SelectPopup from "./SelectPopup";
+import { useEffect, useState } from "react";
+import ImageMagnifier from "../../components/ImageMagnifier";
+import SelectPopup from "../../components/SelectPopup";
 import wallypic from "../../../public/wallypic.png";
 import odlawpic from "../../../public/odlawpic.jpeg";
 import wizardpic from "../../../public/wizardpic.png";
-import Target from "./Target";
 import Image from "next/image";
+import { useGlobalContext } from "@/app/Context/global";
 
 interface PageProps {
   params: any;
@@ -15,15 +15,44 @@ interface PageProps {
 
 export default function Page({ params }: PageProps) {
   const difficulty = params.difficulty;
-  const [opacity, setOpacity] = useState(0);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const handleClick = (e: any) => {
-    setPosition({ x: e.clientX, y: e.clientY });
-    setOpacity(opacity === 1 ? 0 : 1);
-    setFreezeCrosshair(freezeCrosshair === false ? true : false);
-  };
-  const [freezeCrosshair, setFreezeCrosshair] = useState(false);
+  const {
+    setDifficulty,
+    setTargetedCoOrds,
+    popupOpacity,
+    setPopupOpacity,
+    freezeCrosshair,
+    setFreezeCrosshair,
+  } = useGlobalContext();
+  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const [zoomLevel, setZoomLevel] = useState(0);
+
+  useEffect(() => {
+    setDifficulty(params.difficulty);
+  }, []);
+
+  const handleClick = async (e: any) => {
+    setCursorPosition({ x: e.clientX, y: e.clientY });
+    setPopupOpacity(popupOpacity === 1 ? 0 : 1);
+    setFreezeCrosshair(freezeCrosshair === false ? true : false);
+    const clickX = e.clientX;
+    const clickY = e.clientY;
+    const imgW = e.target.offsetWidth;
+    const imgH = e.target.offsetHeight;
+    const winW = window.innerWidth;
+    const winH = window.innerHeight;
+
+    // click relative to img
+
+    const targetX = clickX - (winW - imgW) / 2;
+    const targetY = clickY - (winH - imgH) / 2;
+
+    const x = targetX / imgW;
+    const y = targetY / imgH;
+    setTargetedCoOrds({
+      x: parseFloat(x.toFixed(2)),
+      y: parseFloat(y.toFixed(2)),
+    });
+  };
 
   const handleZoomLevel = (e: any) => {
     setZoomLevel(e.target.value);
@@ -75,14 +104,10 @@ export default function Page({ params }: PageProps) {
       </header>
       <div>
         <div onClick={handleClick}>
-          <ImageMagnifier
-            difficulty={difficulty}
-            freezeCrosshair={freezeCrosshair}
-            zoomLevel={zoomLevel}
-          />
+          <ImageMagnifier difficulty={difficulty} zoomLevel={zoomLevel} />
         </div>
       </div>
-      <SelectPopup opacity={opacity} position={position} />
+      <SelectPopup cursorPosition={cursorPosition} />
     </div>
   );
 }
