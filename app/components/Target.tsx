@@ -9,8 +9,14 @@ interface TargetProps {
 }
 
 const Target = ({ src, character }: TargetProps) => {
-  const { difficulty, targetedCoOrds, setPopupOpacity, setFreezeCrosshair } =
-    useGlobalContext();
+  const {
+    difficulty,
+    targetedCoOrds,
+    setPopupOpacity,
+    setFreezeCrosshair,
+    setFoundCharacters,
+    foundCharacters,
+  } = useGlobalContext();
 
   const handleClick = async (e: any) => {
     const characterSelection = e.target.dataset.character;
@@ -29,7 +35,10 @@ const Target = ({ src, character }: TargetProps) => {
         if (compareCoords(targetedCoOrds, requestedCoOrds)) {
           setPopupOpacity(0);
           setFreezeCrosshair(false);
+          setFoundCharacters([...foundCharacters, characterSelection]);
         }
+        setPopupOpacity(0);
+        setFreezeCrosshair(false);
       } catch (error) {
         console.log(error);
       }
