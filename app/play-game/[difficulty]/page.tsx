@@ -5,6 +5,7 @@ import ImageMagnifier from "../../components/ImageMagnifier";
 import SelectPopup from "../../components/SelectPopup";
 import { useGameContext } from "@/app/Context/GameContext";
 import GameHeader from "@/app/components/GameHeader";
+import WinModal from "@/app/components/WinModal";
 
 interface PageProps {
   params: any;
@@ -59,6 +60,7 @@ export default function Page({ params }: PageProps) {
         </div>
       </main>
       <SelectPopup cursorPosition={cursorPosition} />
+      <WinModal />
     </div>
   );
 }
