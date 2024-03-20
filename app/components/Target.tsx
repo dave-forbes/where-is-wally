@@ -1,7 +1,8 @@
 import Image from "next/image";
 import { useGameContext } from "../Context/GameContext";
-import { db } from "../lib/pocketbase";
 import compareCoords from "../utils/compareCoOrds";
+import db from "../utils/firebase";
+import { collection, query, where, getDocs } from "firebase/firestore";
 
 interface TargetProps {
   src: any;
@@ -22,16 +23,18 @@ const Target = ({ src, character }: TargetProps) => {
     const characterSelection = e.target.dataset.character;
     if (characterSelection) {
       try {
-        const data = await db.collection("target_co_ords").getList(1, 50, {
-          filter: `difficulty="${difficulty}" && name="${characterSelection}"`,
-        });
-        const requestedCoOrds = { x: data.items[0].x, y: data.items[0].y };
-
-        console.log(requestedCoOrds);
-        console.log(targetedCoOrds);
-
+        const querySnapshot = await getDocs(
+          query(
+            collection(db, "target_co_ords"),
+            where("name", "==", characterSelection),
+            where("difficulty", "==", difficulty)
+          )
+        );
+        const requestedCoOrds = {
+          x: querySnapshot.docs[0].data().x,
+          y: querySnapshot.docs[0].data().y,
+        };
         console.log(compareCoords(targetedCoOrds, requestedCoOrds));
-
         if (compareCoords(targetedCoOrds, requestedCoOrds)) {
           setFoundCharacters([...foundCharacters, characterSelection]);
         }
