@@ -4,18 +4,32 @@ import Link from "next/link";
 import { collection, addDoc } from "firebase/firestore";
 import db from "../utils/firebase";
 
-const WinComponent = () => {
-  const { foundCharacters, setFoundCharacters, difficulty } = useGameContext();
+const WinModal = () => {
+  const {
+    gameOver,
+    setGameOver,
+    setFoundCharacters,
+    difficulty,
+    totalSeconds,
+  } = useGameContext();
   const [playerName, setPlayerName] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
+    // Calculate minutes and seconds
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+
+    // Format minutes and seconds to two decimal places
+    const formattedMinutes = String(minutes).padStart(2, "0");
+    const formattedSeconds = String(seconds).padStart(2, "0");
+
     const data = {
       name: playerName,
       difficulty: difficulty,
-      time: 5.67,
+      time: `${formattedMinutes}m ${formattedSeconds}s`,
     };
     try {
       const docRef = await addDoc(collection(db, "scoreboard"), data);
@@ -24,6 +38,7 @@ const WinComponent = () => {
       console.log(error);
     }
     setFoundCharacters([]);
+    setGameOver(false);
     setSubmitted(true);
   };
 
@@ -53,7 +68,7 @@ const WinComponent = () => {
     );
   }
 
-  if (foundCharacters.length === 3 && !submitted) {
+  if (gameOver && !submitted) {
     return (
       <div className="modal-overlay">
         <div className="modal-content">
@@ -77,4 +92,4 @@ const WinComponent = () => {
   return <></>;
 };
 
-export default WinComponent;
+export default WinModal;
