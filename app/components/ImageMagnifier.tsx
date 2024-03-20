@@ -1,8 +1,7 @@
 import { useState } from "react";
-import "./ImageMagnifier.css";
 import { useGameContext } from "../Context/GameContext";
 
-//- code taken from this article https://dev.to/anxiny/create-an-image-magnifier-with-react-3fd7
+//- code taken and modified from this article https://dev.to/anxiny/create-an-image-magnifier-with-react-3fd7
 
 export default function ImageMagnifier({
   difficulty,
