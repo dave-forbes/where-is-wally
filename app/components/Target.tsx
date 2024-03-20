@@ -33,8 +33,6 @@ const Target = ({ src, character }: TargetProps) => {
         console.log(compareCoords(targetedCoOrds, requestedCoOrds));
 
         if (compareCoords(targetedCoOrds, requestedCoOrds)) {
-          setPopupOpacity(0);
-          setFreezeCrosshair(false);
           setFoundCharacters([...foundCharacters, characterSelection]);
         }
         setPopupOpacity(0);
