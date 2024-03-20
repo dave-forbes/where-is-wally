@@ -19,6 +19,8 @@ interface GlobalContextProps {
   setFreezeCrosshair: Dispatch<SetStateAction<boolean>>;
   selectionFeedback: string;
   setSelectionFeedback: Dispatch<SetStateAction<string>>;
+  zoomLevel: number;
+  setZoomLevel: Dispatch<SetStateAction<number>>;
 }
 
 const GlobalContext = createContext<GlobalContextProps>({
@@ -32,6 +34,8 @@ const GlobalContext = createContext<GlobalContextProps>({
   setFreezeCrosshair: (): void => {},
   selectionFeedback: "",
   setSelectionFeedback: (): void => {},
+  zoomLevel: 0,
+  setZoomLevel: (): void => {},
 });
 
 export const GlobalContextProvider = ({ children }: any) => {
@@ -40,6 +44,7 @@ export const GlobalContextProvider = ({ children }: any) => {
   const [popupOpacity, setPopupOpacity] = useState(0);
   const [freezeCrosshair, setFreezeCrosshair] = useState(false);
   const [selectionFeedback, setSelectionFeedback] = useState("");
+  const [zoomLevel, setZoomLevel] = useState(0);
 
   return (
     <GlobalContext.Provider
@@ -54,6 +59,8 @@ export const GlobalContextProvider = ({ children }: any) => {
         setFreezeCrosshair,
         selectionFeedback,
         setSelectionFeedback,
+        zoomLevel,
+        setZoomLevel,
       }}
     >
       {children}
