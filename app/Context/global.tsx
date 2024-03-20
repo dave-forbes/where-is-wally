@@ -21,6 +21,8 @@ interface GlobalContextProps {
   setSelectionFeedback: Dispatch<SetStateAction<string>>;
   zoomLevel: number;
   setZoomLevel: Dispatch<SetStateAction<number>>;
+  foundCharacters: string[];
+  setFoundCharacters: Dispatch<SetStateAction<string[]>>;
 }
 
 const GlobalContext = createContext<GlobalContextProps>({
@@ -36,6 +38,8 @@ const GlobalContext = createContext<GlobalContextProps>({
   setSelectionFeedback: (): void => {},
   zoomLevel: 0,
   setZoomLevel: (): void => {},
+  foundCharacters: [],
+  setFoundCharacters: (): void => {},
 });
 
 export const GlobalContextProvider = ({ children }: any) => {
@@ -45,6 +49,7 @@ export const GlobalContextProvider = ({ children }: any) => {
   const [freezeCrosshair, setFreezeCrosshair] = useState(false);
   const [selectionFeedback, setSelectionFeedback] = useState("");
   const [zoomLevel, setZoomLevel] = useState(0);
+  const [foundCharacters, setFoundCharacters] = useState<string[]>([]);
 
   return (
     <GlobalContext.Provider
@@ -61,6 +66,8 @@ export const GlobalContextProvider = ({ children }: any) => {
         setSelectionFeedback,
         zoomLevel,
         setZoomLevel,
+        foundCharacters,
+        setFoundCharacters,
       }}
     >
       {children}
