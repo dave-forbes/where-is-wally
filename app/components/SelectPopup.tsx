@@ -4,29 +4,33 @@ import wallypic from "../../public/wallypic.png";
 import odlawpic from "../../public/odlawpic.jpeg";
 import wizardpic from "../../public/wizardpic.png";
 import Target from "./Target";
+import { useGlobalContext } from "../Context/global";
 
 interface SelectPopupProps {
-  opacity: number;
-  position: { x: number; y: number };
+  cursorPosition: { x: number; y: number };
 }
 
-const SelectPopup = ({ opacity, position }: SelectPopupProps) => {
+const SelectPopup = ({ cursorPosition }: SelectPopupProps) => {
+  const { popupOpacity } = useGlobalContext();
   return (
     <AnimatePresence>
-      {opacity > 0 && (
+      {popupOpacity > 0 && (
         <motion.div
           initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: opacity, height: "auto" }}
+          animate={{ opacity: popupOpacity, height: "auto" }}
           exit={{ opacity: 0, height: 0 }}
           transition={{ duration: 0.3 }}
           className="absolute bg-white p-3 rounded-lg overflow-hidden flex flex-col justify-center items-center gap-2"
-          style={{ top: `${position.y}px`, left: `${position.x}px` }}
+          style={{
+            top: `${cursorPosition.y}px`,
+            left: `${cursorPosition.x}px`,
+          }}
         >
           <p>Confirm Target</p>
           <div className="flex gap-3 items-baseline">
-            <Target src={wallypic} />
-            <Target src={odlawpic} />
-            <Target src={wizardpic} />
+            <Target src={wallypic} character={"wally"} />
+            <Target src={odlawpic} character={"odlaw"} />
+            <Target src={wizardpic} character={"wizard"} />
           </div>
         </motion.div>
       )}
