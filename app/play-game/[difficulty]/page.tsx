@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import ImageMagnifier from "../../components/ImageMagnifier";
 import SelectPopup from "../../components/SelectPopup";
-import { useGlobalContext } from "@/app/Context/global";
+import { useGameContext } from "@/app/Context/GameContext";
 import GameHeader from "@/app/components/GameHeader";
 
 interface PageProps {
@@ -20,7 +20,7 @@ export default function Page({ params }: PageProps) {
     freezeCrosshair,
     setFreezeCrosshair,
     zoomLevel,
-  } = useGlobalContext();
+  } = useGameContext();
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {

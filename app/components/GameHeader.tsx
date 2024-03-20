@@ -1,4 +1,4 @@
-import { useGlobalContext } from "../Context/global";
+import { useGameContext } from "../Context/GameContext";
 import wallypic from "../../public/wallypic.png";
 import odlawpic from "../../public/odlawpic.jpeg";
 import wizardpic from "../../public/wizardpic.png";
@@ -6,7 +6,7 @@ import Image from "next/image";
 import CrossSVG from "./CrossSVG";
 
 export default function GameHeader() {
-  const { zoomLevel, setZoomLevel, foundCharacters } = useGlobalContext();
+  const { zoomLevel, setZoomLevel, foundCharacters } = useGameContext();
 
   const handleZoomLevel = (e: any) => {
     setZoomLevel(e.target.value);

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useGlobalContext } from "../Context/global";
+import { useGameContext } from "../Context/GameContext";
 import { db } from "../lib/pocketbase";
 import compareCoords from "../utils/compareCoOrds";
 
@@ -16,7 +16,7 @@ const Target = ({ src, character }: TargetProps) => {
     setFreezeCrosshair,
     setFoundCharacters,
     foundCharacters,
-  } = useGlobalContext();
+  } = useGameContext();
 
   const handleClick = async (e: any) => {
     const characterSelection = e.target.dataset.character;

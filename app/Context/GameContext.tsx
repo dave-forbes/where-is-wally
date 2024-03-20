@@ -8,7 +8,7 @@ import {
   useState,
 } from "react";
 
-interface GlobalContextProps {
+interface GameContextProps {
   difficulty: string;
   setDifficulty: Dispatch<SetStateAction<string>>;
   targetedCoOrds: { x: number; y: number };
@@ -25,7 +25,7 @@ interface GlobalContextProps {
   setFoundCharacters: Dispatch<SetStateAction<string[]>>;
 }
 
-const GlobalContext = createContext<GlobalContextProps>({
+const GameContext = createContext<GameContextProps>({
   difficulty: "",
   setDifficulty: (): void => {},
   targetedCoOrds: { x: 0, y: 0 },
@@ -42,7 +42,7 @@ const GlobalContext = createContext<GlobalContextProps>({
   setFoundCharacters: (): void => {},
 });
 
-export const GlobalContextProvider = ({ children }: any) => {
+export const GameContextProvider = ({ children }: any) => {
   const [difficulty, setDifficulty] = useState("");
   const [targetedCoOrds, setTargetedCoOrds] = useState({ x: 0, y: 0 });
   const [popupOpacity, setPopupOpacity] = useState(0);
@@ -52,7 +52,7 @@ export const GlobalContextProvider = ({ children }: any) => {
   const [foundCharacters, setFoundCharacters] = useState<string[]>([]);
 
   return (
-    <GlobalContext.Provider
+    <GameContext.Provider
       value={{
         difficulty,
         setDifficulty,
@@ -71,8 +71,8 @@ export const GlobalContextProvider = ({ children }: any) => {
       }}
     >
       {children}
-    </GlobalContext.Provider>
+    </GameContext.Provider>
   );
 };
 
-export const useGlobalContext = () => useContext(GlobalContext);
+export const useGameContext = () => useContext(GameContext);

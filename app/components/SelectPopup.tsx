@@ -4,14 +4,14 @@ import wallypic from "../../public/wallypic.png";
 import odlawpic from "../../public/odlawpic.jpeg";
 import wizardpic from "../../public/wizardpic.png";
 import Target from "./Target";
-import { useGlobalContext } from "../Context/global";
+import { useGameContext } from "../Context/GameContext";
 
 interface SelectPopupProps {
   cursorPosition: { x: number; y: number };
 }
 
 const SelectPopup = ({ cursorPosition }: SelectPopupProps) => {
-  const { popupOpacity } = useGlobalContext();
+  const { popupOpacity } = useGameContext();
   return (
     <AnimatePresence>
       {popupOpacity > 0 && (
