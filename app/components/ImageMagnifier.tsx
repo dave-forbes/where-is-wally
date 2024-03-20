@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./ImageMagnifier.css";
+import { useGlobalContext } from "../Context/global";
 
 //- code taken from this article https://dev.to/anxiny/create-an-image-magnifier-with-react-3fd7
 
@@ -8,17 +9,16 @@ export default function ImageMagnifier({
   magnifierHeight = 120,
   magnifierWidth = 120,
   zoomLevel = 0,
-  freezeCrosshair,
 }: {
   difficulty: string;
   magnifierHeight?: number;
   magnifierWidth?: number;
   zoomLevel?: number;
-  freezeCrosshair: boolean;
 }) {
   const [[x, y], setXY] = useState([0, 0]);
   const [[imgWidth, imgHeight], setSize] = useState([0, 0]);
   const [showMagnifier, setShowMagnifier] = useState(false);
+  const { freezeCrosshair } = useGlobalContext();
 
   return (
     <div
