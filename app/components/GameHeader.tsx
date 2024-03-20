@@ -4,6 +4,7 @@ import odlawpic from "../../public/odlawpic.jpeg";
 import wizardpic from "../../public/wizardpic.png";
 import Image from "next/image";
 import CrossSVG from "./CrossSVG";
+import Timer from "./Timer";
 
 export default function GameHeader() {
   const { zoomLevel, setZoomLevel, foundCharacters } = useGameContext();
@@ -26,10 +27,7 @@ export default function GameHeader() {
             value={zoomLevel}
           ></input>
         </div>
-
-        <div className="bg-white rounded-lg p-3">
-          <h1 className="text-4xl">Time: 12.12secs</h1>
-        </div>
+        <Timer />
         <div className="flex gap-3">
           <div className=" flex items-center bg-white rounded-lg p-3">
             <div style={{ position: "relative" }}>
