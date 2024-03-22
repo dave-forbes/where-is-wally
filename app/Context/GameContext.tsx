@@ -31,6 +31,8 @@ interface GameContextProps {
   setGameOver: Dispatch<SetStateAction<boolean>>;
   gameFeedback: string;
   setGameFeedback: Dispatch<SetStateAction<string>>;
+  screenSize: { width: number; height: number };
+  setScreenSize: Dispatch<SetStateAction<{ width: number; height: number }>>;
 }
 
 const GameContext = createContext<GameContextProps>({
@@ -54,6 +56,8 @@ const GameContext = createContext<GameContextProps>({
   setGameOver: (): void => {},
   gameFeedback: "",
   setGameFeedback: (): void => {},
+  screenSize: { width: 0, height: 0 },
+  setScreenSize: (): void => {},
 });
 
 interface GameContextProviderProps {
@@ -71,12 +75,39 @@ export const GameContextProvider = ({ children }: GameContextProviderProps) => {
   const [timerActive, setTimerActive] = useState(true);
   const [gameOver, setGameOver] = useState(false);
   const [gameFeedback, setGameFeedback] = useState("");
+  const [screenSize, setScreenSize] = useState({ width: 1000, height: 600 });
+
+  // set screen size when loading or resizing any page
+
+  useEffect(() => {
+    setScreenSize({
+      width: window.innerWidth,
+      height: window.innerHeight,
+    });
+
+    const handleResize = () => {
+      setScreenSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  // end game if 3 characters found
 
   useEffect(() => {
     if (foundCharacters.length >= 3) {
       setGameOver(true);
     }
   }, [foundCharacters]);
+
+  // when game ended, stop timer
 
   useEffect(() => {
     if (gameOver) {
@@ -107,6 +138,8 @@ export const GameContextProvider = ({ children }: GameContextProviderProps) => {
         setGameOver,
         gameFeedback,
         setGameFeedback,
+        screenSize,
+        setScreenSize,
       }}
     >
       {children}
