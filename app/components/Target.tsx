@@ -3,6 +3,7 @@ import { useGameContext } from "../Context/GameContext";
 import compareCoords from "../utils/compareCoOrds";
 import db from "../utils/firebase";
 import { collection, query, where, getDocs } from "firebase/firestore";
+import { useEffect } from "react";
 
 interface TargetProps {
   src: any;
@@ -17,7 +18,16 @@ const Target = ({ src, character }: TargetProps) => {
     setFreezeCrosshair,
     setFoundCharacters,
     foundCharacters,
+    setGameFeedback,
   } = useGameContext();
+
+  useEffect(() => {
+    if (!db) {
+      setGameFeedback(
+        "Error: Cannot connect to server, please try again later."
+      );
+    }
+  }, []);
 
   const handleClick = async (e: any) => {
     const characterSelection = e.target.dataset.character;
@@ -34,14 +44,16 @@ const Target = ({ src, character }: TargetProps) => {
           x: querySnapshot.docs[0].data().x,
           y: querySnapshot.docs[0].data().y,
         };
-        console.log(compareCoords(targetedCoOrds, requestedCoOrds));
         if (compareCoords(targetedCoOrds, requestedCoOrds)) {
           setFoundCharacters([...foundCharacters, characterSelection]);
+          setGameFeedback("Succesful hit on target.");
+        } else {
+          setGameFeedback("Incorrect target or not a headshot.");
         }
         setPopupOpacity(0);
         setFreezeCrosshair(false);
       } catch (error) {
-        console.log(error);
+        setGameFeedback("Error: Could not fetch data, please try again later");
       }
     }
   };
@@ -51,7 +63,7 @@ const Target = ({ src, character }: TargetProps) => {
       <Image
         src={src}
         alt={""}
-        className="w-20 h-auto "
+        className="w-20 h-auto"
         onClick={handleClick}
         data-character={character}
       />
