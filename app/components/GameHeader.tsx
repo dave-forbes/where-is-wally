@@ -5,6 +5,7 @@ import wizardpic from "../../public/wizardpic.png";
 import Image from "next/image";
 import CrossSVG from "./CrossSVG";
 import Timer from "./Timer";
+import Link from "next/link";
 
 export default function GameHeader() {
   const { zoomLevel, setZoomLevel, foundCharacters } = useGameContext();
@@ -15,10 +16,9 @@ export default function GameHeader() {
 
   return (
     <>
-      <header className=" flex justify-evenly items-center py-3 top-0 bg-blue-950  w-full absolute">
-        <h1 className="text-white text-4xl">Where's wally</h1>
+      <header className=" flex justify-evenly items-center py-3 top-0 absolute w-screen">
         <div className="flex items-center gap-6 bg-white rounded-lg p-3">
-          <h1>Zoom level</h1>
+          <h1 className="text-2xl">Zoom level</h1>
           <input
             type="range"
             onChange={handleZoomLevel}
@@ -47,6 +47,18 @@ export default function GameHeader() {
               <Image src={wizardpic} width={50} alt={""} />
             </div>
           </div>
+        </div>
+        <div className="flex gap-3">
+          <Link href="/">
+            <button className="hover:bg-blue-700 bg-blue-500 rounded-lg p-3">
+              Home
+            </button>
+          </Link>
+          <Link href="/scoreboard">
+            <button className="hover:bg-green-700 bg-green-500 rounded-lg p-3">
+              View Scoreboard
+            </button>
+          </Link>
         </div>
       </header>
     </>
