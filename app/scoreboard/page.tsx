@@ -5,6 +5,8 @@ import { collection, query, where, getDocs } from "firebase/firestore";
 import db from "../utils/firebase";
 import Link from "next/link";
 import formatTime from "../utils/formatTime";
+import { useGameContext } from "../Context/GameContext";
+import ScreenSizeMessage from "../components/ScreenSizeMessage";
 
 interface Score {
   name: string;
@@ -15,6 +17,7 @@ export default function Scoreboard() {
   const [difficulty, setDifficulty] = useState("easy");
   const [scores, setScores] = useState<Score[]>([]);
   const [error, setError] = useState("");
+  const { screenSize } = useGameContext();
 
   useEffect(() => {
     const fetchScores = async () => {
@@ -61,61 +64,67 @@ export default function Scoreboard() {
 
   return (
     <main className="bg-black text-white flex flex-col justify-center h-screen items-center gap-6">
-      <h1 className="text-4xl">High scores for {difficulty}</h1>
-      <div className="flex gap-5">
-        <button
-          onClick={handleClick}
-          data-difficulty="easy"
-          className="hover:bg-green-700 bg-green-500 rounded-lg p-3"
-        >
-          Easy
-        </button>
-        <button
-          onClick={handleClick}
-          data-difficulty="medium"
-          className="hover:bg-orange-500 bg-orange-300 rounded-lg p-3"
-        >
-          Medium
-        </button>
-        <button
-          onClick={handleClick}
-          data-difficulty="hard"
-          className="hover:bg-red-700 bg-red-500 rounded-lg p-3"
-        >
-          Hard
-        </button>
-      </div>
-      <div>
-        {error ? (
-          <h1 className="text-2xl">{error}</h1>
-        ) : (
-          <table className="score-board">
-            <thead>
-              <tr>
-                <th>Rank</th>
-                <th>Name</th>
-                <th>Time</th>
-              </tr>
-            </thead>
-            <tbody>
-              {scores.map((item, index) => (
-                <tr key={index}>
-                  <td>{index + 1}</td>
-                  <td>{item.name}</td>
-                  <td>{formatTime(item.time)}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-      </div>
-      <div>
-        <Link href="/">
-          <button className="hover:bg-blue-700 bg-blue-500 rounded-lg p-3">
-            Home
-          </button>
-        </Link>
-      </div>
+      {screenSize.width < 1000 || screenSize.height < 600 ? (
+        <ScreenSizeMessage />
+      ) : (
+        <>
+          <h1 className="text-4xl">High scores for {difficulty}</h1>
+          <div className="flex gap-5">
+            <button
+              onClick={handleClick}
+              data-difficulty="easy"
+              className="hover:bg-green-700 bg-green-500 rounded-lg p-3"
+            >
+              Easy
+            </button>
+            <button
+              onClick={handleClick}
+              data-difficulty="medium"
+              className="hover:bg-orange-500 bg-orange-300 rounded-lg p-3"
+            >
+              Medium
+            </button>
+            <button
+              onClick={handleClick}
+              data-difficulty="hard"
+              className="hover:bg-red-700 bg-red-500 rounded-lg p-3"
+            >
+              Hard
+            </button>
+          </div>
+          <div>
+            {error ? (
+              <h1 className="text-2xl">{error}</h1>
+            ) : (
+              <table className="score-board">
+                <thead>
+                  <tr>
+                    <th>Rank</th>
+                    <th>Name</th>
+                    <th>Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {scores.map((item, index) => (
+                    <tr key={index}>
+                      <td>{index + 1}</td>
+                      <td>{item.name}</td>
+                      <td>{formatTime(item.time)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
+          <div>
+            <Link href="/">
+              <button className="hover:bg-blue-700 bg-blue-500 rounded-lg p-3">
+                Home
+              </button>
+            </Link>
+          </div>
+        </>
+      )}
     </main>
   );
 }

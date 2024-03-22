@@ -1,14 +1,15 @@
 "use client";
 
 import { useEffect, useState, MouseEvent } from "react";
-import ImageMagnifier from "../../components/ImageMagnifier";
-import SelectPopup from "../../components/SelectPopup";
+import ImageMagnifier from "@/app/components/ImageMagnifier";
+import SelectPopup from "@/app/components/SelectPopup";
 import { useGameContext } from "@/app/Context/GameContext";
 import GameHeader from "@/app/components/GameHeader";
 import WinModal from "@/app/components/WinModal";
 import GameFeedback from "@/app/components/GameFeedback";
 import generateTargedCoOrds from "@/app/utils/generateTargedCoOrds";
 import { useParams } from "next/navigation";
+import ScreenSizeMessage from "@/app/components/ScreenSizeMessage";
 
 export default function PlayGame() {
   const { difficulty } = useParams();
@@ -26,6 +27,7 @@ export default function PlayGame() {
     gameOver,
     setGameOver,
     setFoundCharacters,
+    screenSize,
   } = useGameContext();
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
 
@@ -49,18 +51,24 @@ export default function PlayGame() {
 
   return (
     <div className="flex items-center h-screen w-screen bg-black flex-col justify-center">
-      <GameHeader />
-      <main>
-        <div onClick={handleClick}>
-          <ImageMagnifier
-            difficulty={difficulty.toString()}
-            zoomLevel={zoomLevel}
-          />
-        </div>
-      </main>
-      <SelectPopup cursorPosition={cursorPosition} />
-      {gameOver && <WinModal />}
-      {gameFeedback && <GameFeedback />}
+      {screenSize.width < 1000 || screenSize.height < 600 ? (
+        <ScreenSizeMessage />
+      ) : (
+        <>
+          <GameHeader />
+          <main>
+            <div onClick={handleClick}>
+              <ImageMagnifier
+                difficulty={difficulty.toString()}
+                zoomLevel={zoomLevel}
+              />
+            </div>
+          </main>
+          <SelectPopup cursorPosition={cursorPosition} />
+          {gameOver && <WinModal />}
+          {gameFeedback && <GameFeedback />}
+        </>
+      )}
     </div>
   );
 }
