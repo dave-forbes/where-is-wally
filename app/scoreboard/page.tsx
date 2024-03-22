@@ -4,9 +4,9 @@ import { useEffect, useState, MouseEvent } from "react";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import db from "../utils/firebase";
 import Link from "next/link";
-import formatTime from "../utils/formatTime";
 import { useGameContext } from "../Context/GameContext";
 import ScreenSizeMessage from "../components/ScreenSizeMessage";
+import ScoreboardTable from "../components/ScoreBoardTable";
 
 interface Score {
   name: string;
@@ -18,6 +18,7 @@ export default function Scoreboard() {
   const [scores, setScores] = useState<Score[]>([]);
   const [error, setError] = useState("");
   const { screenSize } = useGameContext();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchScores = async () => {
@@ -43,8 +44,10 @@ export default function Scoreboard() {
         const rankedScores = scoresData.sort((a, b) => a.time - b.time);
         const topFiveScores = rankedScores.slice(0, 5);
         setScores(topFiveScores);
+        setLoading(false);
       } catch (error) {
         setError(`Error: Failed to fetch scores, please try again later`);
+        setLoading(false);
       }
     };
 
@@ -93,28 +96,9 @@ export default function Scoreboard() {
             </button>
           </div>
           <div>
-            {error ? (
-              <h1 className="text-2xl">{error}</h1>
-            ) : (
-              <table className="score-board">
-                <thead>
-                  <tr>
-                    <th>Rank</th>
-                    <th>Name</th>
-                    <th>Time</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {scores.map((item, index) => (
-                    <tr key={index}>
-                      <td>{index + 1}</td>
-                      <td>{item.name}</td>
-                      <td>{formatTime(item.time)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            )}
+            {loading && <h1 className="text-2xl">Fetching scores...</h1>}
+            {error && <h1 className="text-2xl">{error}</h1>}
+            {!loading && !error && <ScoreboardTable scores={scores} />}
           </div>
           <div>
             <Link href="/">
