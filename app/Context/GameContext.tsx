@@ -18,8 +18,6 @@ interface GameContextProps {
   setPopupOpacity: Dispatch<SetStateAction<number>>;
   freezeCrosshair: Boolean;
   setFreezeCrosshair: Dispatch<SetStateAction<boolean>>;
-  selectionFeedback: string;
-  setSelectionFeedback: Dispatch<SetStateAction<string>>;
   zoomLevel: number;
   setZoomLevel: Dispatch<SetStateAction<number>>;
   foundCharacters: string[];
@@ -28,8 +26,10 @@ interface GameContextProps {
   setTotalSeconds: Dispatch<SetStateAction<number>>;
   timerActive: boolean;
   setTimerActive: Dispatch<SetStateAction<boolean>>;
-  gameOver: boolean; // New state for game over
-  setGameOver: Dispatch<SetStateAction<boolean>>; // Function to update game over state
+  gameOver: boolean;
+  setGameOver: Dispatch<SetStateAction<boolean>>;
+  gameFeedback: string;
+  setGameFeedback: Dispatch<SetStateAction<string>>;
 }
 
 const GameContext = createContext<GameContextProps>({
@@ -41,8 +41,6 @@ const GameContext = createContext<GameContextProps>({
   setPopupOpacity: (): void => {},
   freezeCrosshair: false,
   setFreezeCrosshair: (): void => {},
-  selectionFeedback: "",
-  setSelectionFeedback: (): void => {},
   zoomLevel: 0,
   setZoomLevel: (): void => {},
   foundCharacters: [],
@@ -51,8 +49,10 @@ const GameContext = createContext<GameContextProps>({
   setTotalSeconds: (): void => {},
   timerActive: false,
   setTimerActive: (): void => {},
-  gameOver: false, // Default game over state
-  setGameOver: (): void => {}, // Placeholder function
+  gameOver: false,
+  setGameOver: (): void => {},
+  gameFeedback: "",
+  setGameFeedback: (): void => {},
 });
 
 export const GameContextProvider = ({ children }: any) => {
@@ -60,18 +60,16 @@ export const GameContextProvider = ({ children }: any) => {
   const [targetedCoOrds, setTargetedCoOrds] = useState({ x: 0, y: 0 });
   const [popupOpacity, setPopupOpacity] = useState(0);
   const [freezeCrosshair, setFreezeCrosshair] = useState(false);
-  const [selectionFeedback, setSelectionFeedback] = useState("");
   const [zoomLevel, setZoomLevel] = useState(0);
   const [foundCharacters, setFoundCharacters] = useState<string[]>([]);
   const [totalSeconds, setTotalSeconds] = useState(0);
   const [timerActive, setTimerActive] = useState(true);
-  const [gameOver, setGameOver] = useState(false); // Initialize game over state
+  const [gameOver, setGameOver] = useState(false);
+  const [gameFeedback, setGameFeedback] = useState("");
 
-  // Check for game over condition whenever foundCharacters array is updated
   useEffect(() => {
     if (foundCharacters.length >= 3) {
       setGameOver(true);
-      // You can perform any additional actions here when the game is over
     }
   }, [foundCharacters]);
 
@@ -79,7 +77,7 @@ export const GameContextProvider = ({ children }: any) => {
     if (gameOver) {
       setTimerActive(false);
     }
-  });
+  }, [gameOver]);
 
   return (
     <GameContext.Provider
@@ -92,8 +90,6 @@ export const GameContextProvider = ({ children }: any) => {
         setPopupOpacity,
         freezeCrosshair,
         setFreezeCrosshair,
-        selectionFeedback,
-        setSelectionFeedback,
         zoomLevel,
         setZoomLevel,
         foundCharacters,
@@ -102,8 +98,10 @@ export const GameContextProvider = ({ children }: any) => {
         setTotalSeconds,
         timerActive,
         setTimerActive,
-        gameOver, // Pass game over state to context
-        setGameOver, // Pass function to update game over state to context
+        gameOver,
+        setGameOver,
+        gameFeedback,
+        setGameFeedback,
       }}
     >
       {children}
