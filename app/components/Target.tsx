@@ -1,12 +1,13 @@
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import { useGameContext } from "../Context/GameContext";
 import compareCoords from "../utils/compareCoOrds";
 import db from "../utils/firebase";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { useEffect } from "react";
+import { MouseEvent } from "react";
 
 interface TargetProps {
-  src: any;
+  src: StaticImageData;
   character: string;
 }
 
@@ -29,8 +30,11 @@ const Target = ({ src, character }: TargetProps) => {
     }
   }, []);
 
-  const handleClick = async (e: any) => {
-    const characterSelection = e.target.dataset.character;
+  const handleClick = async (
+    e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
+  ) => {
+    const div = e.target as HTMLDivElement;
+    const characterSelection = div.dataset.character;
     if (characterSelection) {
       try {
         const querySnapshot = await getDocs(

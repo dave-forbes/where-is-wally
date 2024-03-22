@@ -7,6 +7,7 @@ import {
   SetStateAction,
   useState,
   useEffect,
+  ReactNode,
 } from "react";
 
 interface GameContextProps {
@@ -55,7 +56,11 @@ const GameContext = createContext<GameContextProps>({
   setGameFeedback: (): void => {},
 });
 
-export const GameContextProvider = ({ children }: any) => {
+interface GameContextProviderProps {
+  children: ReactNode;
+}
+
+export const GameContextProvider = ({ children }: GameContextProviderProps) => {
   const [difficulty, setDifficulty] = useState("");
   const [targetedCoOrds, setTargetedCoOrds] = useState({ x: 0, y: 0 });
   const [popupOpacity, setPopupOpacity] = useState(0);

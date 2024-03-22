@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { FormEvent, useState } from "react";
 import { useGameContext } from "../Context/GameContext";
 import Link from "next/link";
 import { collection, addDoc } from "firebase/firestore";
@@ -10,7 +10,7 @@ const WinModal = () => {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const data = {
@@ -20,7 +20,7 @@ const WinModal = () => {
     };
     try {
       await addDoc(collection(db, "scoreboard"), data);
-    } catch (error: any) {
+    } catch (error) {
       setError("Error: Failed to submit score, please try again later");
     }
     setFoundCharacters([]);

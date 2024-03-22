@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, MouseEvent } from "react";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import db from "../utils/firebase";
 import Link from "next/link";
@@ -48,8 +48,15 @@ export default function Scoreboard() {
     fetchScores();
   }, [difficulty]);
 
-  const handleClick = (e: any) => {
-    setDifficulty(e.target.dataset.difficulty);
+  const handleClick = (
+    e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
+  ) => {
+    const button = e.target as HTMLButtonElement;
+    const difficulty = button.dataset.difficulty;
+    if (difficulty) setDifficulty(difficulty);
+    else {
+      setError("Error: Failed to fetch scores");
+    }
   };
 
   return (

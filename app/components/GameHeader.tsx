@@ -6,12 +6,14 @@ import Image from "next/image";
 import CrossSVG from "./CrossSVG";
 import Timer from "./Timer";
 import Link from "next/link";
+import { ChangeEvent } from "react";
 
 export default function GameHeader() {
   const { zoomLevel, setZoomLevel, foundCharacters } = useGameContext();
 
-  const handleZoomLevel = (e: any) => {
-    setZoomLevel(e.target.value);
+  const handleZoomLevel = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(e.target.value);
+    setZoomLevel(value);
   };
 
   return (
