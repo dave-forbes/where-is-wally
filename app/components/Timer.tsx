@@ -32,8 +32,8 @@ function Timer() {
   const formattedSeconds = String(seconds).padStart(2, "0");
 
   return (
-    <div className="bg-white rounded-lg p-3 w-36">
-      <h1 className="text-center">
+    <div className="bg-white rounded-lg p-3 w-[200px]">
+      <h1 className="text-center text-2xl">
         Timer: {formattedMinutes}:{formattedSeconds}
       </h1>
     </div>
