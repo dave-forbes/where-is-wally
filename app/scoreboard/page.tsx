@@ -1,10 +1,11 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import { collection, query, where, getDocs } from "firebase/firestore";
-import db from "../utils/firebase"; // Assuming this is where you have your Firebase configuration
+import db from "../utils/firebase";
 import Link from "next/link";
+import formatTime from "../utils/formatTime";
 
-// Define the type for a single score entry
 interface Score {
   name: string;
   time: number;
@@ -12,21 +13,35 @@ interface Score {
 
 export default function Scoreboard() {
   const [difficulty, setDifficulty] = useState("easy");
-  const [scores, setScores] = useState<Score[]>([]); // Explicitly define the state type as an array of Score objects
+  const [scores, setScores] = useState<Score[]>([]);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchScores = async () => {
       try {
+        if (!db) {
+          setError(
+            "Error: Failed to connect to database, please try again later"
+          );
+          return;
+        }
+        setError("");
         const scoresCollection = collection(db, "scoreboard");
         const q = query(
           scoresCollection,
           where("difficulty", "==", difficulty)
         );
         const querySnapshot = await getDocs(q);
+        if (querySnapshot.empty) {
+          setError("No scores found for this difficulty");
+          return;
+        }
         const scoresData = querySnapshot.docs.map((doc) => doc.data() as Score); // Cast each document data to Score type
-        setScores(scoresData);
+        const rankedScores = scoresData.sort((a, b) => a.time - b.time);
+        const topFiveScores = rankedScores.slice(0, 5);
+        setScores(topFiveScores);
       } catch (error) {
-        console.error("Error fetching scores:", error);
+        setError(`Error: Failed to fetch scores, please try again later`);
       }
     };
 
@@ -39,6 +54,7 @@ export default function Scoreboard() {
 
   return (
     <main className="bg-black text-white flex flex-col justify-center h-screen items-center gap-6">
+      <h1 className="text-4xl">High scores for {difficulty}</h1>
       <div className="flex gap-5">
         <button
           onClick={handleClick}
@@ -63,18 +79,32 @@ export default function Scoreboard() {
         </button>
       </div>
       <div>
-        <h2>Scores for {difficulty} difficulty:</h2>
-        <ul>
-          {scores.map((score: Score, index: number) => (
-            <li key={index}>
-              {score.name}: {score.time}
-            </li>
-          ))}
-        </ul>
+        {error ? (
+          <h1 className="text-2xl">{error}</h1>
+        ) : (
+          <table className="score-board">
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Name</th>
+                <th>Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              {scores.map((item, index) => (
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>{item.name}</td>
+                  <td>{formatTime(item.time)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
       <div>
         <Link href="/">
-          <button className="hover:bg-green-700 bg-blue-500 rounded-lg p-3">
+          <button className="hover:bg-blue-700 bg-blue-500 rounded-lg p-3">
             Home
           </button>
         </Link>
