@@ -7,7 +7,7 @@ import { useGameContext } from "@/app/Context/GameContext";
 import GameHeader from "@/app/components/GameHeader";
 import WinModal from "@/app/components/WinModal";
 import GameFeedback from "@/app/components/GameFeedback";
-import generateTargedCoOrds from "@/app/utils/generateTargedCoOrds";
+import generateTargetCoOrds from "@/app/utils/generateTargetCoOrds";
 import { useParams } from "next/navigation";
 import ScreenSizeMessage from "@/app/components/ScreenSizeMessage";
 
@@ -46,7 +46,7 @@ export default function PlayGame() {
     setPopupOpacity(popupOpacity === 1 ? 0 : 1);
     setFreezeCrosshair(freezeCrosshair === false ? true : false);
     setGameFeedback("");
-    setTargetedCoOrds(generateTargedCoOrds(e));
+    setTargetedCoOrds(generateTargetCoOrds(e));
   };
 
   return (

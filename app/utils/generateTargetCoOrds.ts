@@ -1,6 +1,6 @@
 import { MouseEvent } from "react";
 
-export default function generateTargedCoOrds(
+export default function generateTargetCoOrds(
   e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
 ) {
   const clickX = e.clientX;
