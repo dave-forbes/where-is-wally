@@ -42,21 +42,13 @@
   border-radius: 5px;
 }
 
-.button-1 {
-  border-radius: 8px;
-  border-style: none;
-  box-sizing: border-box;
-  cursor: pointer;
-  display: inline-block;
-  list-style: none;
-  margin: 0;
-  outline: none;
-  position: relative;
-  text-align: center;
-  text-decoration: none;
-  transition: color 100ms;
-  vertical-align: baseline;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
+.score-board {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 10px;
+}
+
+.score-board th,
+.score-board td {
+  padding: 10px;
 }
