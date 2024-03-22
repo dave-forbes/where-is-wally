@@ -36,6 +36,10 @@ const Target = ({ src, character }: TargetProps) => {
     const div = e.target as HTMLDivElement;
     const characterSelection = div.dataset.character;
     if (characterSelection) {
+      if (foundCharacters.includes(characterSelection)) {
+        setGameFeedback("Character already taken out.");
+        return;
+      }
       try {
         const querySnapshot = await getDocs(
           query(
