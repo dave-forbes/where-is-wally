@@ -38,6 +38,8 @@ const Target = ({ src, character }: TargetProps) => {
     if (characterSelection) {
       if (foundCharacters.includes(characterSelection)) {
         setGameFeedback("Character already taken out.");
+        setPopupOpacity(0);
+        setFreezeCrosshair(false);
         return;
       }
       try {
