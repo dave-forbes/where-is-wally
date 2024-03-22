@@ -27,6 +27,7 @@ export default function Scoreboard() {
           setError(
             "Error: Failed to connect to database, please try again later"
           );
+          setLoading(false);
           return;
         }
         setError("");
@@ -38,6 +39,7 @@ export default function Scoreboard() {
         const querySnapshot = await getDocs(q);
         if (querySnapshot.empty) {
           setError("No scores found for this difficulty");
+          setLoading(false);
           return;
         }
         const scoresData = querySnapshot.docs.map((doc) => doc.data() as Score);
@@ -71,7 +73,7 @@ export default function Scoreboard() {
         <ScreenSizeMessage />
       ) : (
         <>
-          <h1 className="text-4xl">High scores for {difficulty}</h1>
+          <h1 className="text-4xl">Top 5 scores for {difficulty}</h1>
           <div className="flex gap-5">
             <button
               onClick={handleClick}
