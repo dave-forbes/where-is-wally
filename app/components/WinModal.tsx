@@ -8,10 +8,23 @@ const WinModal = () => {
   const { setFoundCharacters, difficulty, totalSeconds } = useGameContext();
   const [playerName, setPlayerName] = useState("");
   const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState("");
+  const [serverError, setServerError] = useState("");
+  const [validationError, setValidationError] = useState("");
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const regex = /[^a-zA-Z0-9\s\_\-.]/;
+
+    if (regex.test(playerName)) {
+      setValidationError("Error: No special characters allowed");
+      return;
+    }
+
+    if (playerName.length > 15) {
+      setValidationError("Error: Name cannot be larger than 15 characters");
+      return;
+    }
 
     const data = {
       name: playerName,
@@ -21,7 +34,7 @@ const WinModal = () => {
     try {
       await addDoc(collection(db, "scoreboard"), data);
     } catch (error) {
-      setError("Error: Failed to submit score, please try again later");
+      setServerError("Error: Failed to submit score, please try again later");
     }
     setFoundCharacters([]);
     setSubmitted(true);
@@ -31,8 +44,8 @@ const WinModal = () => {
     return (
       <div className="modal-overlay">
         <div className="modal-content flex flex-col gap-6 items-center">
-          {error ? (
-            <h1 className="text-2xl">{error}</h1>
+          {serverError ? (
+            <h1 className="text-2xl">{serverError}</h1>
           ) : (
             <>
               <h1 className="text-2xl">Score submited</h1>
@@ -84,6 +97,9 @@ const WinModal = () => {
             >
               Submit Score
             </button>
+            {validationError && (
+              <p className="text-red-500">{validationError}</p>
+            )}
           </form>
         </div>
       </div>
