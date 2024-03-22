@@ -8,13 +8,10 @@ import GameHeader from "@/app/components/GameHeader";
 import WinModal from "@/app/components/WinModal";
 import GameFeedback from "@/app/components/GameFeedback";
 import generateTargedCoOrds from "@/app/utils/generateTargedCoOrds";
+import { useParams } from "next/navigation";
 
-interface PlayGameProps {
-  params: any;
-}
-
-export default function PlayGame({ params }: PlayGameProps) {
-  const difficulty = params.difficulty;
+export default function PlayGame() {
+  const { difficulty } = useParams();
   const {
     setDifficulty,
     setTargetedCoOrds,
@@ -33,7 +30,7 @@ export default function PlayGame({ params }: PlayGameProps) {
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
-    setDifficulty(params.difficulty);
+    setDifficulty(difficulty.toString());
     setTotalSeconds(0);
     setGameFeedback("");
     setGameOver(false);
@@ -55,7 +52,10 @@ export default function PlayGame({ params }: PlayGameProps) {
       <GameHeader />
       <main>
         <div onClick={handleClick}>
-          <ImageMagnifier difficulty={difficulty} zoomLevel={zoomLevel} />
+          <ImageMagnifier
+            difficulty={difficulty.toString()}
+            zoomLevel={zoomLevel}
+          />
         </div>
       </main>
       <SelectPopup cursorPosition={cursorPosition} />
