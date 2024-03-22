@@ -36,7 +36,7 @@ export default function Scoreboard() {
           setError("No scores found for this difficulty");
           return;
         }
-        const scoresData = querySnapshot.docs.map((doc) => doc.data() as Score); // Cast each document data to Score type
+        const scoresData = querySnapshot.docs.map((doc) => doc.data() as Score);
         const rankedScores = scoresData.sort((a, b) => a.time - b.time);
         const topFiveScores = rankedScores.slice(0, 5);
         setScores(topFiveScores);
