@@ -1,17 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, MouseEvent } from "react";
 import ImageMagnifier from "../../components/ImageMagnifier";
 import SelectPopup from "../../components/SelectPopup";
 import { useGameContext } from "@/app/Context/GameContext";
 import GameHeader from "@/app/components/GameHeader";
 import WinModal from "@/app/components/WinModal";
+import GameFeedback from "@/app/components/GameFeedback";
+import generateTargedCoOrds from "@/app/utils/generateTargedCoOrds";
 
-interface PageProps {
+interface PlayGameProps {
   params: any;
 }
 
-export default function Page({ params }: PageProps) {
+export default function PlayGame({ params }: PlayGameProps) {
   const difficulty = params.difficulty;
   const {
     setDifficulty,
@@ -22,38 +24,30 @@ export default function Page({ params }: PageProps) {
     setFreezeCrosshair,
     zoomLevel,
     setTotalSeconds,
+    gameFeedback,
+    setGameFeedback,
+    gameOver,
+    setGameOver,
+    setFoundCharacters,
   } = useGameContext();
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     setDifficulty(params.difficulty);
-  }, []);
-
-  useEffect(() => {
     setTotalSeconds(0);
+    setGameFeedback("");
+    setGameOver(false);
+    setFoundCharacters([]);
   }, []);
 
-  const handleClick = async (e: any) => {
+  const handleClick = async (
+    e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
+  ) => {
     setCursorPosition({ x: e.clientX, y: e.clientY });
     setPopupOpacity(popupOpacity === 1 ? 0 : 1);
     setFreezeCrosshair(freezeCrosshair === false ? true : false);
-    const clickX = e.clientX;
-    const clickY = e.clientY;
-    const imgW = e.target.offsetWidth;
-    const imgH = e.target.offsetHeight;
-    const winW = window.innerWidth;
-    const winH = window.innerHeight;
-    // click relative to img
-    const targetX = clickX - (winW - imgW) / 2;
-    const targetY = clickY - (winH - imgH) / 2;
-    // convert to ratio
-    const x = targetX / imgW;
-    const y = targetY / imgH;
-    // set to floating point with 2 decimal places
-    setTargetedCoOrds({
-      x: parseFloat(x.toFixed(2)),
-      y: parseFloat(y.toFixed(2)),
-    });
+    setGameFeedback("");
+    setTargetedCoOrds(generateTargedCoOrds(e));
   };
 
   return (
@@ -65,7 +59,8 @@ export default function Page({ params }: PageProps) {
         </div>
       </main>
       <SelectPopup cursorPosition={cursorPosition} />
-      <WinModal />
+      {gameOver && <WinModal />}
+      {gameFeedback && <GameFeedback />}
     </div>
   );
 }
